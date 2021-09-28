@@ -3,14 +3,13 @@ package hexlet.code;
 
 import picocli.CommandLine;
 
-import java.io.File;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff",
         description = "Compares two configuration files and shows a difference.")
 public class Command implements Callable<Integer> {
-    public static void generate(){}
 
     @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
     boolean versionInfoRequested = false;
@@ -21,22 +20,30 @@ public class Command implements Callable<Integer> {
     @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format", description = "output format [default: stylish]")
     private String format;
 
-    @CommandLine.Parameters(description = "path to first file", paramLabel = "filepath1", defaultValue = "")
+    @CommandLine.Parameters(index = "0", description = "path to first file", paramLabel = "filepath1", defaultValue = "")
     private String filepath1;
 
-    @CommandLine.Parameters(description = "path to second file", paramLabel = "filepath2", defaultValue = "")
+    @CommandLine.Parameters(index = "1", description = "path to second file", paramLabel = "filepath2", defaultValue = "")
     private String filepath2;
-
 
     @Override
     public Integer call() throws Exception {
         if (usageHelpRequested) {
-            CommandLine.usage(new Differ(), System.out);
+            CommandLine.usage(new Command(), System.out);
             return null;
         }
         if (versionInfoRequested) {
-            CommandLine.usage(new Differ(), System.out);
+            CommandLine.usage(new Command(), System.out);
             return null;
+        }
+        if (!filepath1.equals("") && !filepath2.equals("")) {
+            FileUtils.fileToString(filepath1, filepath2);
+
+            Map temp = ComparesTwoFile.ret(JsonUtils.unserialize(FileUtils.getFileFirst()),
+                            JsonUtils.unserialize(FileUtils.getFileSecond()));
+            System.out.println("{");
+            temp.forEach((key, value) -> System.out.println(key + " : " + value));
+            System.out.println("}");
         }
         return null;
     }

@@ -6,8 +6,9 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-               Differ differ = CommandLine.populateCommand(new Differ(), args);
-               differ.call();
+               Command command = CommandLine.populateCommand(new Command(),  args);
+               command.call();
         }
     }
 
+// "file1.json", "file2.json"
