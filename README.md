@@ -1,2 +1,6 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/RuddyPanta/java-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/RuddyPanta/java-project-lvl2/actions)
+
+[![hexlet-check](https://github.com/RuddyPanta/java-project-lvl2/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/RuddyPanta/java-project-lvl2/actions/workflows/hexlet-check.yml)
+
+<a href="https://codeclimate.com/github/RuddyPanta/java-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/09716319a474bd2e6fbb/maintainability" /></a>
+

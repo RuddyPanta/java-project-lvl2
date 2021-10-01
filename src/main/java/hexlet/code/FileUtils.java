@@ -22,13 +22,13 @@ public class FileUtils {
 
         try {
             fileFirst = new String(Files.readAllBytes(Paths.get(filepath1)));
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.toString());
         }
 
         try {
             fileSecond = new String(Files.readAllBytes(Paths.get(filepath2)));
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.toString());
         }
 

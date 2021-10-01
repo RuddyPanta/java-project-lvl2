@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -28,10 +26,9 @@ public class JsonUtils {
         Map preResult = new TreeMap();
         try {
             preResult = mapper.readValue(json, TreeMap.class);
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-         catch (Exception e) {
-             System.out.println(e.toString());
-         }
 
         return preResult;
 
