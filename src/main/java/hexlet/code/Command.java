@@ -3,7 +3,7 @@ package hexlet.code;
 
 import picocli.CommandLine;
 
-import java.util.Map;
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff",
@@ -31,7 +31,7 @@ public class Command implements Callable<Integer> {
     private String filepath2;
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() throws IOException {
         if (usageHelpRequested) {
             CommandLine.usage(new Command(), System.out);
             return null;
@@ -41,13 +41,9 @@ public class Command implements Callable<Integer> {
             return null;
         }
         if (!filepath1.equals("") && !filepath2.equals("")) {
-            FileUtils.fileToString(filepath1, filepath2);
+            System.out.printf(Differ.generate(filepath1, filepath2));
 
-            Map temp = ComparesTwoFile.ret(JsonUtils.unserialize(FileUtils.getFileFirst()),
-                    JsonUtils.unserialize(FileUtils.getFileSecond()));
-            System.out.println("{");
-            temp.forEach((key, value) -> System.out.println(key + " : " + value));
-            System.out.println("}");
+
         }
         return null;
     }
