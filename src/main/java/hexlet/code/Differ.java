@@ -4,7 +4,14 @@ import java.util.*;
 
 public class ComparesTwoFile {
 
-    public static Map<String, Object> ret(Map<String, Object> fileFirst, Map<String, Object> fileSecond) {
+    private final String filepath1;
+    private final String filepath2;
+
+    ComparesTwoFile(String filepath1, String filepath2) {
+        this.filepath1 = filepath1;
+        this.filepath2 = filepath2;
+    }
+    public String generate() (Map<String, Object> fileFirst, Map<String, Object> fileSecond) {
 
 
         Map<String, Object> result = new LinkedHashMap<>();
