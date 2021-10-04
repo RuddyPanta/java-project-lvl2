@@ -1,5 +1,5 @@
-package hexlet.code;
 
+package hexlet.code;
 
 import picocli.CommandLine;
 
@@ -11,7 +11,3 @@ public class App {
         command.call();
     }
 }
-
-
-
-//"file1.json", "file2.json"

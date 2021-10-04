@@ -12,11 +12,11 @@ public class Command implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true,
             description = "Print version information and exit.")
-    boolean versionInfoRequested = false;
+    private final boolean versionInfoRequested = false;
 
     @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true,
             description = "Show this help message and exit.")
-    boolean usageHelpRequested = false;
+    private final boolean usageHelpRequested = false;
 
     @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format",
             description = "output format [default: stylish]")
@@ -31,7 +31,7 @@ public class Command implements Callable<Integer> {
     private String filepath2;
 
     @Override
-    public Integer call() throws IOException {
+    public Integer call() throws Exception {
         if (usageHelpRequested) {
             CommandLine.usage(new Command(), System.out);
             return null;
@@ -40,10 +40,13 @@ public class Command implements Callable<Integer> {
             CommandLine.usage(new Command(), System.out);
             return null;
         }
-        if (!filepath1.equals("") && !filepath2.equals("")) {
-            System.out.printf(Differ.generate(filepath1, filepath2));
+        try {
 
-
+            if (!filepath1.equals("") && !filepath2.equals("")) {
+                System.out.printf(Differ.generate(filepath1, filepath2));
+            }
+        } catch (IOException ignored) {
+            System.out.println(ignored);
         }
         return null;
     }

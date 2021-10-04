@@ -1,12 +1,16 @@
 package hexlet.code;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 public class jsonTest {
@@ -36,6 +40,11 @@ public class jsonTest {
         }
     }
 
+    @AfterAll
+    public static void clean() throws IOException {
+        Files.delete(Path.of("file1.json"));
+        Files.delete(Path.of("file2.json"));
+    }
 
     @Test
     void test01() throws IOException {
