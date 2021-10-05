@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff",
         description = "Compares two configuration files and shows a difference.")
-public class Command implements Callable<Integer> {
+public final class Command implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true,
             description = "Print version information and exit.")
