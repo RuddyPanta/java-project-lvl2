@@ -8,4 +8,3 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/09716319a474bd2e6fbb/test_coverage)](https://codeclimate.com/github/RuddyPanta/java-project-lvl2/test_coverage)
 
 
-24a0c3ffc3e23b6ef0a676718cb2bc5a1b92205f2c48f94ddf10638bd6b952f2
