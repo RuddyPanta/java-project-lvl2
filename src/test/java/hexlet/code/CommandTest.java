@@ -12,8 +12,8 @@ class CommandTest {
 
         String result = "{%n- follow: false,%n  host: hexlet.io,%n"
                 + "- proxy: 123.234.53.22,%n- timeout: 50,%n+ timeout: 20,%n+ verbose: true%n}";
-        String expected = Differ.generate("/home/ruddy/java-project-lvl2/src/test/resources/filepath1.json",
-                "/home/ruddy/java-project-lvl2/src/test/resources/filepath2.json");
+        String expected = Differ.generate(getClass().getResource("/filepath1.json").getFile(),
+                getClass().getResource("/filepath2.json").getFile());
         Assertions.assertEquals(result, expected);
         System.out.println("Test wish .json completed");
     }
@@ -23,8 +23,8 @@ class CommandTest {
 
         String result = "{%n- follow: false,%n  host: hexlet.io,%n"
                 + "- proxy: 123.234.53.22,%n- timeout: 50,%n+ timeout: 20,%n+ verbose: true%n}";
-        String expected = Differ.generate("/home/ruddy/java-project-lvl2/src/test/resources/filepath1.yml",
-                "/home/ruddy/java-project-lvl2/src/test/resources/filepath2.yml");
+        String expected = Differ.generate(getClass().getResource("/filepath1.yml").getFile(),
+                getClass().getResource("/filepath2.yml").getFile());
         Assertions.assertEquals(result, expected);
         System.out.println("Test wish .yml completed");
     }
