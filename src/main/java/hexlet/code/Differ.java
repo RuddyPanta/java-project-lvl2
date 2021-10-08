@@ -1,35 +1,36 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 
-
 public class Differ {
 
-    private static Map unSerialize(String filepath) throws IOException {
+    public static String generate(String filepath1, String filepath2) throws Exception {
 
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new String(Files.readAllBytes(Paths.get(filepath))), Map.class);
-    }
-
-    private static String serialize(Map<String, Object> result) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(result);
-    }
+        final String check = CheckFilepathName.fileName(filepath1, filepath2);
+        Map fileFirst = new HashMap<>();
+        Map fileSecond = new HashMap<>();
 
 
-    public static String generate(String filepath1, String filepath2) throws IOException {
+        switch (check) {
+            case "JSON" -> {
+                fileFirst = Parser.unSerializeJson(filepath1);
+                fileSecond = Parser.unSerializeJson(filepath2);
+            }
 
-        Map fileFirst = unSerialize(filepath1);
-        Map fileSecond = unSerialize(filepath2);
+            case "YAML" -> {
+                fileFirst = Parser.unSerializeYml(filepath1);
+                fileSecond = Parser.unSerializeYml(filepath2);
+            }
+
+            default -> {
+
+            }
+        }
+
 
         Map<String, Object> result = new LinkedHashMap<>();
 
@@ -43,19 +44,21 @@ public class Differ {
         map3.putAll(fileFirst);
         map3.putAll(fileSecond);
 
+        Map finalFileFirst = fileFirst;
+        Map finalFileSecond = fileSecond;
         map3.forEach((k, v) -> {
-            if (fileFirst.containsKey(k) && fileSecond.containsKey(k)) {
-                if (fileFirst.get(k).equals(fileSecond.get(k))) {
+            if (finalFileFirst.containsKey(k) && finalFileSecond.containsKey(k)) {
+                if (finalFileFirst.get(k).equals(finalFileSecond.get(k))) {
                     result.put("%n" + "  " + k, " " + v);
                 } else {
-                    result.put("%n" + "- " + k, " " + fileFirst.get(k));
-                    result.put("%n" + "+ " + k, " " + fileSecond.get(k));
+                    result.put("%n" + "- " + k, " " + finalFileFirst.get(k));
+                    result.put("%n" + "+ " + k, " " + finalFileSecond.get(k));
                 }
             } else {
-                if (fileFirst.containsKey(k)) {
-                    result.put("%n" + "- " + k, " " + fileFirst.get(k));
+                if (finalFileFirst.containsKey(k)) {
+                    result.put("%n" + "- " + k, " " + finalFileFirst.get(k));
                 } else {
-                    result.put("%n" + "+ " + k, " " + fileSecond.get(k));
+                    result.put("%n" + "+ " + k, " " + finalFileSecond.get(k));
                 }
 
             }
@@ -63,6 +66,6 @@ public class Differ {
 
         });
 
-        return serialize(result).replaceAll("\"", "").replace("}", "%n}");
+        return Parser.serialize(result).replaceAll("\"", "").replace("}", "%n}");
     }
 }
