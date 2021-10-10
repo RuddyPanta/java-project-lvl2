@@ -36,7 +36,7 @@ public class Differ {
 
         if (fileFirst.isEmpty() && !fileSecond.isEmpty()) {
             fileSecond.forEach((kMap2, vMap2) -> {
-                result.put("%n" + "+ " + kMap2, " " + vMap2);
+                result.put("+ " + kMap2, vMap2);
             });
         }
 
@@ -48,17 +48,26 @@ public class Differ {
         Map finalFileSecond = fileSecond;
         map3.forEach((k, v) -> {
             if (finalFileFirst.containsKey(k) && finalFileSecond.containsKey(k)) {
+
+                if (finalFileFirst.get(k) == null) {
+                    finalFileFirst.replace(k, "null");
+                }
+
+                if (finalFileSecond.get(k) == null) {
+                    finalFileSecond.replace(k, "null");
+                }
+
                 if (finalFileFirst.get(k).equals(finalFileSecond.get(k))) {
-                    result.put("%n" + "  " + k, " " + v);
+                    result.put("  " + k, v);
                 } else {
-                    result.put("%n" + "- " + k, " " + finalFileFirst.get(k));
-                    result.put("%n" + "+ " + k, " " + finalFileSecond.get(k));
+                    result.put("- " + k, finalFileFirst.get(k));
+                    result.put("+ " + k, finalFileSecond.get(k));
                 }
             } else {
                 if (finalFileFirst.containsKey(k)) {
-                    result.put("%n" + "- " + k, " " + finalFileFirst.get(k));
+                    result.put("- " + k, finalFileFirst.get(k));
                 } else {
-                    result.put("%n" + "+ " + k, " " + finalFileSecond.get(k));
+                    result.put("+ " + k, finalFileSecond.get(k));
                 }
 
             }
@@ -66,6 +75,7 @@ public class Differ {
 
         });
 
-        return Parser.serialize(result).replaceAll("\"", "").replace("}", "%n}");
+        return Parser.serialize(result);
+
     }
 }

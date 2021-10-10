@@ -19,7 +19,7 @@ public final class Command implements Callable<Integer> {
     private boolean usageHelpRequested = false;
 
     @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format",
-            description = "output format [default: stylish]")
+            description = "output format [default: stylish]", defaultValue = "stylish")
     private String format;
 
     @CommandLine.Parameters(index = "0", description = "path to first file",
@@ -43,7 +43,15 @@ public final class Command implements Callable<Integer> {
         try {
 
             if (!filepath1.equals("") && !filepath2.equals("")) {
-                System.out.printf(Differ.generate(filepath1, filepath2));
+                switch (format) {
+                    case "stylish" -> {
+                        Stylish.stylish(Differ.generate(filepath1, filepath2));
+                    }
+
+                    default -> {
+                        System.out.println("ERROR");
+                    }
+                }
             }
         } catch (IOException ignored) {
             System.out.println(ignored);

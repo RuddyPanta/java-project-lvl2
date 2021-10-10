@@ -2,9 +2,6 @@ package hexlet.code;
 
 public class CheckFilepathName {
 
-    public CheckFilepathName(String filepath1, String filepath2) {
-    }
-
     public static String fileName(String filepath1, String filepath2) {
         String result = null;
 

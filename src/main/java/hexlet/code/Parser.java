@@ -22,6 +22,11 @@ public class Parser {
         return mapper.readValue(new String(Files.readAllBytes(Paths.get(filepath))), Map.class);
     }
 
+    public static Map unSerialize(String str) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(str, Map.class);
+    }
+
     public static String serialize(Map<String, Object> result) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(result);
