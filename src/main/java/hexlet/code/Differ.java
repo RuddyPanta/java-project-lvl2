@@ -14,6 +14,10 @@ public class Differ {
     public static final String DELL = "-1";
     public static final String EMPTY_STRING = " ";
 
+    public static void generate(String filepath1, String filepath2) throws IOException {
+        generate(filepath1, filepath2, "stylish");
+    }
+
 
     public static String generate(String filepath1, String filepath2, String formatName) throws IOException {
 
