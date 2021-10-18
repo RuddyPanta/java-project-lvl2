@@ -7,61 +7,147 @@ import org.junit.jupiter.api.Test;
 
 class CommandTest {
 
+//    @Test
+//    void testEmptyFirstFile() throws IOException {
+//        String result = "{\n"
+//                + "  + chars1: [a, b, c]\n"
+//                + "  + chars2: false\n"
+//                + "  + checked: true\n"
+//                + "  + default: [value1, value2]\n"
+//                + "  + id: null\n"
+//                + "  + key2: value2\n"
+//                + "  + numbers1: [1, 2, 3, 4]\n"
+//                + "  + numbers2: [22, 33, 44, 55]\n"
+//                + "  + numbers4: [4, 5, 6]\n"
+//                + "  + obj1: {nestedKey=value, isNested=true}\n"
+//                + "  + setting1: Another value\n"
+//                + "  + setting2: 300\n"
+//                + "  + setting3: none\n"
+//                + "}";
+//
+//        String expected = Differ.generate(getClass().getResource("/fileDataZero.json").getFile(),
+//                getClass().getResource("/fileData2.json").getFile(), "stylish");
+//        Assertions.assertEquals(result, expected);
+//        System.out.println("Test wish fileDataZero.json completed");
+//
+//
+//
+//    }
 
     @Test
-    void testJSONxPath() throws Exception {
+    void testJSONxDataSL() throws Exception {
 
-        String result = "{\"- follow\":false,\"  host\":\"hexlet.io\","
-                + "\"- proxy\":\"123.234.53.22\",\"- timeout\":50,\"+ timeout\":20,\"+ verbose\":true}";
-        String expected = Differ.generate(getClass().getResource("/filepath1.json").getFile(),
-                getClass().getResource("/filepath2.json").getFile());
-        Assertions.assertEquals(result, expected);
-        System.out.println("Test wish filepath.json completed");
-    }
 
-    @Test
-    void testYAMLxPath() throws Exception {
+        String result = "{\n"
+                + "    chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  + chars2: false\n"
+                + "  - checked: false\n"
+                + "  + checked: true\n"
+                + "  - default: null\n"
+                + "  + default: [value1, value2]\n"
+                + "  - id: 45\n"
+                + "  + id: null\n"
+                + "  - key1: value1\n"
+                + "  + key2: value2\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  + numbers2: [22, 33, 44, 55]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  + numbers4: [4, 5, 6]\n"
+                + "  + obj1: {nestedKey=value, isNested=true}\n"
+                + "  - setting1: Some value\n"
+                + "  + setting1: Another value\n"
+                + "  - setting2: 200\n"
+                + "  + setting2: 300\n"
+                + "  - setting3: true\n"
+                + "  + setting3: none\n"
+                + "}";
 
-        String result = "{\"- follow\":false,\"  host\":\"hexlet.io\","
-                + "\"- proxy\":\"123.234.53.22\",\"- timeout\":50,\"+ timeout\":20,\"+ verbose\":true}";
-        String expected = Differ.generate(getClass().getResource("/filepath1.yml").getFile(),
-                getClass().getResource("/filepath2.yml").getFile());
-        Assertions.assertEquals(result, expected);
-        System.out.println("Test wish filepath.yml completed");
-    }
-
-    @Test
-    void testJSONxData() throws Exception {
-
-        String result = "{\"  chars1\":[\"a\",\"b\",\"c\"],\"- chars2\":[\"d\",\"e\",\"f\"],"
-                + "\"+ chars2\":false,\"- checked\":false,\"+ checked\":true,\"- default\":\"null\","
-                + "\"+ default\":[\"value1\",\"value2\"],\"- id\":45,\"+ id\":\"null\",\"- key1\":\"value1\","
-                + "\"+ key2\":\"value2\",\"  numbers1\":[1,2,3,4],\"- numbers2\":[2,3,4,5],"
-                + "\"+ numbers2\":[22,33,44,55],\"- numbers3\":[3,4,5],\"+ numbers4\":[4,5,6],"
-                + "\"+ obj1\":{\"nestedKey\":\"value\",\"isNested\":true},\"- setting1\":\"Some value\","
-                + "\"+ setting1\":\"Another value\",\"- setting2\":200,\"+ setting2\":300,\"- setting3\":true,"
-                + "\"+ setting3\":\"none\"}";
         String expected = Differ.generate(getClass().getResource("/fileData1.json").getFile(),
-                getClass().getResource("/fileData2.json").getFile());
+                getClass().getResource("/fileData2.json").getFile(), "stylish");
         Assertions.assertEquals(result, expected);
         System.out.println("Test wish fileData.json completed");
     }
 
     @Test
-    void testYAMLxData() throws Exception {
+    void testYAMLxDataSL() throws Exception {
 
-        String result = "{\"  chars1\":[\"a\",\"b\",\"c\"],\"- chars2\":[\"d\",\"e\",\"f\"],"
-                + "\"+ chars2\":false,\"- checked\":false,\"+ checked\":true,\"- default\":\"null\","
-                + "\"+ default\":[\"value1\",\"value2\"],\"- id\":45,\"+ id\":\"null\",\"- key1\":\"value1\","
-                + "\"+ key2\":\"value2\",\"  numbers1\":[1,2,3,4],\"- numbers2\":[2,3,4,5],"
-                + "\"+ numbers2\":[22,33,44,55],\"- numbers3\":[3,4,5],\"+ numbers4\":[4,5,6],"
-                + "\"+ obj1\":{\"nestedKey\":\"value\",\"isNested\":true},\"- setting1\":\"Some value\","
-                + "\"+ setting1\":\"Another value\",\"- setting2\":200,\"+ setting2\":300,\"- setting3\":true,"
-                + "\"+ setting3\":\"none\"}";
+        String result = "{\n"
+                + "    chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  + chars2: false\n"
+                + "  - checked: false\n"
+                + "  + checked: true\n"
+                + "  - default: null\n"
+                + "  + default: [value1, value2]\n"
+                + "  - id: 45\n"
+                + "  + id: null\n"
+                + "  - key1: value1\n"
+                + "  + key2: value2\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  + numbers2: [22, 33, 44, 55]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  + numbers4: [4, 5, 6]\n"
+                + "  + obj1: {nestedKey=value, isNested=true}\n"
+                + "  - setting1: Some value\n"
+                + "  + setting1: Another value\n"
+                + "  - setting2: 200\n"
+                + "  + setting2: 300\n"
+                + "  - setting3: true\n"
+                + "  + setting3: none\n"
+                + "}";
+
         String expected = Differ.generate(getClass().getResource("/fileData1.yml").getFile(),
-                getClass().getResource("/fileData2.yml").getFile());
+                getClass().getResource("/fileData2.yml").getFile(), "stylish");
         Assertions.assertEquals(result, expected);
         System.out.println("Test wish fileData.yml completed");
     }
 
+    @Test
+    void testJSONxDataP() throws Exception {
+
+        String result = "Property 'chars2' was updated. From [complex value] to false\n"
+                + "Property 'checked' was updated. From false to true\n"
+                + "Property 'default' was updated. From null to [complex value]\n"
+                + "Property 'id' was updated. From 45 to null\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'key2' was added with value: 'value2'\n"
+                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'numbers4' was added with value: [complex value]\n"
+                + "Property 'obj1' was added with value: [complex value]\n"
+                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
+                + "Property 'setting2' was updated. From 200 to 300\n"
+                + "Property 'setting3' was updated. From true to 'none'";
+
+        String expected = Differ.generate(getClass().getResource("/fileData1.json").getFile(),
+                getClass().getResource("/fileData2.json").getFile(), "plain");
+        Assertions.assertEquals(result, expected);
+        System.out.println("Test wish fileData.json completed");
+    }
+
+    @Test
+    void testYAMLxDataP() throws Exception {
+
+        String result = "Property 'chars2' was updated. From [complex value] to false\n"
+                + "Property 'checked' was updated. From false to true\n"
+                + "Property 'default' was updated. From null to [complex value]\n"
+                + "Property 'id' was updated. From 45 to null\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'key2' was added with value: 'value2'\n"
+                + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'numbers4' was added with value: [complex value]\n"
+                + "Property 'obj1' was added with value: [complex value]\n"
+                + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
+                + "Property 'setting2' was updated. From 200 to 300\n"
+                + "Property 'setting3' was updated. From true to 'none'";
+
+        String expected = Differ.generate(getClass().getResource("/fileData1.yml").getFile(),
+                getClass().getResource("/fileData2.yml").getFile(), "plain");
+        Assertions.assertEquals(result, expected);
+        System.out.println("Test wish fileData.yml completed");
+    }
 }

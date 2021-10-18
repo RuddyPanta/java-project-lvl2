@@ -1,14 +1,22 @@
 package hexlet.code;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
+import java.util.ArrayList;
 
 public class Differ {
 
-    public static String generate(String filepath1, String filepath2) throws Exception {
+    public static final String ZERO = "0";
+    public static final String ADD = "1";
+    public static final String DELL = "-1";
+    public static final String EMPTY_STRING = " ";
+
+
+    public static String generate(String filepath1, String filepath2, String formatName) throws IOException {
+
 
         final String check = CheckFilepathName.fileName(filepath1, filepath2);
         Map fileFirst = new HashMap<>();
@@ -34,19 +42,17 @@ public class Differ {
 
         Map<String, Object> result = new LinkedHashMap<>();
 
-        if (fileFirst.isEmpty() && !fileSecond.isEmpty()) {
-            fileSecond.forEach((kMap2, vMap2) -> {
-                result.put("+ " + kMap2, vMap2);
-            });
-        }
-
         Map<String, Object> map3 = new TreeMap<>();
         map3.putAll(fileFirst);
         map3.putAll(fileSecond);
 
         Map finalFileFirst = fileFirst;
         Map finalFileSecond = fileSecond;
+
+
         map3.forEach((k, v) -> {
+
+            ArrayList<Object> arr = new ArrayList<>();
             if (finalFileFirst.containsKey(k) && finalFileSecond.containsKey(k)) {
 
                 if (finalFileFirst.get(k) == null) {
@@ -57,17 +63,32 @@ public class Differ {
                     finalFileSecond.replace(k, "null");
                 }
 
+
                 if (finalFileFirst.get(k).equals(finalFileSecond.get(k))) {
-                    result.put("  " + k, v);
+                    arr.add(ZERO);
+                    arr.add(ZERO);
+                    arr.add(v);
+                    arr.add(v);
                 } else {
-                    result.put("- " + k, finalFileFirst.get(k));
-                    result.put("+ " + k, finalFileSecond.get(k));
+                    arr.add(DELL);
+                    arr.add(ADD);
+                    arr.add(finalFileFirst.get(k));
+                    arr.add(finalFileSecond.get(k));
                 }
+                result.put(k, arr);
             } else {
                 if (finalFileFirst.containsKey(k)) {
-                    result.put("- " + k, finalFileFirst.get(k));
+                    arr.add(ZERO);
+                    arr.add(DELL);
+                    arr.add(finalFileFirst.get(k));
+                    arr.add(EMPTY_STRING);
+                    result.put(k, arr);
                 } else {
-                    result.put("+ " + k, finalFileSecond.get(k));
+                    arr.add(ZERO);
+                    arr.add(ADD);
+                    arr.add(EMPTY_STRING);
+                    arr.add(finalFileSecond.get(k));
+                    result.put(k, arr);
                 }
 
             }
@@ -75,7 +96,7 @@ public class Differ {
 
         });
 
-        return Parser.serialize(result);
 
+        return Formatter.formatter(result, formatName);
     }
 }

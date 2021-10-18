@@ -3,7 +3,6 @@ package hexlet.code;
 
 import picocli.CommandLine;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff",
@@ -24,11 +23,11 @@ public final class Command implements Callable<Integer> {
 
     @CommandLine.Parameters(index = "0", description = "path to first file",
             paramLabel = "filepath1", defaultValue = "")
-    private String filepath1 = "";
+    private String filepath1;
 
     @CommandLine.Parameters(index = "1", description = "path to second file",
             paramLabel = "filepath2", defaultValue = "")
-    private String filepath2 = "";
+    private String filepath2;
 
     @Override
     public Integer call() throws Exception {
@@ -41,21 +40,13 @@ public final class Command implements Callable<Integer> {
             return null;
         }
         try {
-
             if (!filepath1.equals("") && !filepath2.equals("")) {
-                switch (format) {
-                    case "stylish" -> {
-                        Stylish.stylish(Differ.generate(filepath1, filepath2));
-                    }
-
-                    default -> {
-                        System.out.println("ERROR");
-                    }
-                }
+                System.out.println(Differ.generate(filepath1, filepath2, format));
             }
-        } catch (IOException ignored) {
-            System.out.println(ignored);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 }
