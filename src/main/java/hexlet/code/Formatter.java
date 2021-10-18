@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.formatters.json.Json;
 import hexlet.code.formatters.plain.Plain;
 import hexlet.code.formatters.stylish.Stylish;
 
@@ -15,7 +16,9 @@ public class Formatter {
         if (formatter.equals("plain")) {
             return Plain.plain(map);
         }
-
+        if (formatter.equals("json")) {
+            return Json.json(map);
+        }
         return "error";
     }
 }
