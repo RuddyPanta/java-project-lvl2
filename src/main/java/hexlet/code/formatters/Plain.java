@@ -1,4 +1,4 @@
-package hexlet.code.formatters.plain;
+package hexlet.code.formatters;
 
 import hexlet.code.Differ;
 
@@ -16,6 +16,7 @@ public class Plain {
         final int indexSecondMarker = 1;
         final int indexFirstValue = 2;
         final int indexSecondValue = 3;
+        final String lineSeparator = System.lineSeparator();
 
         StringBuilder result = new StringBuilder();
         map.forEach((k, v) -> {
@@ -51,20 +52,20 @@ public class Plain {
                         .append(str.get(indexFirstValue))
                         .append(" to ")
                         .append(str.get(indexSecondValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
             if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.DELL)) {
                 result.append("Property \'")
                         .append(k)
                         .append("\' was removed")
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
             if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.ADD)) {
                 result.append("Property \'")
                         .append(k)
                         .append("\' was added with value: ")
                         .append(str.get(indexSecondValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
         });
 

@@ -1,4 +1,4 @@
-package hexlet.code.formatters.stylish;
+package hexlet.code.formatters;
 
 import hexlet.code.Differ;
 
@@ -14,10 +14,11 @@ public class Stylish {
         final int indexSecondMarker = 1;
         final int indexFirstValue = 2;
         final int indexSecondValue = 3;
+        final String lineSeparator = System.lineSeparator();
 
         StringBuilder result = new StringBuilder();
         result.append("{")
-                .append(System.lineSeparator());
+                .append(lineSeparator);
 
         map.forEach((k, v) -> {
             ArrayList str = (ArrayList) v;
@@ -27,33 +28,33 @@ public class Stylish {
                         .append(k)
                         .append(": ")
                         .append(str.get(indexFirstValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
             if (str.get(indexFirstMarker).equals(Differ.DELL) && str.get(indexSecondMarker).equals(Differ.ADD)) {
                 result.append("  - ")
                         .append(k)
                         .append(": ")
                         .append(str.get(indexFirstValue))
-                        .append(System.lineSeparator())
+                        .append(lineSeparator)
                         .append("  + ")
                         .append(k)
                         .append(": ")
                         .append(str.get(indexSecondValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
             if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.DELL)) {
                 result.append("  - ")
                         .append(k)
                         .append(": ")
                         .append(str.get(indexFirstValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
             if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.ADD)) {
                 result.append("  + ")
                         .append(k)
                         .append(": ")
                         .append(str.get(indexSecondValue))
-                        .append(System.lineSeparator());
+                        .append(lineSeparator);
             }
 
         });
