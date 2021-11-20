@@ -36,11 +36,11 @@ public class App {
             return usageHelpRequested || versionInfoRequested;
         }
 
-        private void handleFlags(boolean usageHelpRequested, boolean versionInfoRequested) {
-            if (usageHelpRequested) {
+        private void handleFlags(boolean usageHelp, boolean versionInfo) {
+            if (usageHelp) {
                 new CommandLine(this).usage(System.err);
             }
-            if (versionInfoRequested) {
+            if (versionInfo) {
                 new CommandLine(this).printVersionHelp(System.err);
             }
         }
