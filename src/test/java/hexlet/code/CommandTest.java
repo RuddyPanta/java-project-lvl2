@@ -7,32 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class CommandTest {
 
-//    @Test
-//    void testEmptyFirstFile() throws IOException {
-//        String result = "{\n"
-//                + "  + chars1: [a, b, c]\n"
-//                + "  + chars2: false\n"
-//                + "  + checked: true\n"
-//                + "  + default: [value1, value2]\n"
-//                + "  + id: null\n"
-//                + "  + key2: value2\n"
-//                + "  + numbers1: [1, 2, 3, 4]\n"
-//                + "  + numbers2: [22, 33, 44, 55]\n"
-//                + "  + numbers4: [4, 5, 6]\n"
-//                + "  + obj1: {nestedKey=value, isNested=true}\n"
-//                + "  + setting1: Another value\n"
-//                + "  + setting2: 300\n"
-//                + "  + setting3: none\n"
-//                + "}";
 //
-//        String expected = Differ.generate(getClass().getResource("/fileDataZero.json").getFile(),
-//                getClass().getResource("/fileData2.json").getFile(), "stylish");
-//        Assertions.assertEquals(result, expected);
-//        System.out.println("Test wish fileDataZero.json completed");
-//
-//
-//
-//    }
 
     @Test
     void testJSONxDataSL() throws Exception {
