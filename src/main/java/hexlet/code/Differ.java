@@ -3,21 +3,19 @@ package hexlet.code;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Differ {
 
-    public static final String ZERO = "0";
-    public static final String ADD = "1";
-    public static final String DELL = "-1";
-    public static final String EMPTY_STRING = " ";
 
-    private static String makeContent(String filepath) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(filepath)));
+
+    public static final String UNCHANGED = "unchanged";
+    public static final String CHANGED = "changed";
+    public static final String DELETED = "deleted";
+    public static final String ADDED = "added";
+
+    private static String readFile(String filepath) throws IOException {
+        return Files.readString(Paths.get(filepath));
 
     }
 
@@ -26,12 +24,12 @@ public class Differ {
         switch (check) {
             case "JSON" -> {
 
-                result = Parser.unSerializeJson(content);
+                result = Parser.unSerialize(content, "json");
 
             }
 
             case "YAML" -> {
-                result = Parser.unSerializeYml(content);
+                result = Parser.unSerialize(content, "yml");
 
             }
 
@@ -41,19 +39,30 @@ public class Differ {
         }
         return result;
     }
+    
+    private static Map<String, Object> buildMap(String status, String fieldName, Object
+            value1, Object value2) {
+        Map<String, Object> arr = new HashMap<>();
+            arr.put("status", status);
+            arr.put("fieldName", fieldName);
+            arr.put("value1", value1);
+            arr.put("value2", value2);
+            return arr;
+    } 
 
-    private static Map finishMap(Map fileFirst, Map fileSecond) {
+    private static List<Map<String, Object>> buildDiff(Map fileFirst, Map fileSecond) {
 
-        Map<String, Object> result = new LinkedHashMap<>();
+        List<Map<String, Object>> result = new LinkedList<>();
 
         Map<String, Object> map3 = new TreeMap<>();
         map3.putAll(fileFirst);
         map3.putAll(fileSecond);
-
+        
 
         map3.forEach((k, v) -> {
-
-            ArrayList<Object> arr = new ArrayList<>();
+           
+            String status;
+            
             if (fileFirst.containsKey(k) && fileSecond.containsKey(k)) {
 
                 if (fileFirst.get(k) == null) {
@@ -66,34 +75,19 @@ public class Differ {
 
 
                 if (fileFirst.get(k).equals(fileSecond.get(k))) {
-                    arr.add(ZERO);
-                    arr.add(ZERO);
-                    arr.add(v);
-                    arr.add(v);
+                    status = UNCHANGED;
                 } else {
-                    arr.add(DELL);
-                    arr.add(ADD);
-                    arr.add(fileFirst.get(k));
-                    arr.add(fileSecond.get(k));
+                    status = CHANGED;
                 }
-                result.put(k, arr);
             } else {
                 if (fileFirst.containsKey(k)) {
-                    arr.add(ZERO);
-                    arr.add(DELL);
-                    arr.add(fileFirst.get(k));
-                    arr.add(EMPTY_STRING);
-                    result.put(k, arr);
+                     status = DELETED; 
                 } else {
-                    arr.add(ZERO);
-                    arr.add(ADD);
-                    arr.add(EMPTY_STRING);
-                    arr.add(fileSecond.get(k));
-                    result.put(k, arr);
+                    status = ADDED;
                 }
-
             }
-
+           
+            result.add(buildMap(status, k, fileFirst.get(k), fileSecond.get(k)));
 
         });
 
@@ -108,9 +102,9 @@ public class Differ {
 
 
         final String check = CheckFilepathName.fileName(filepath1, filepath2);
-        Map fileFirst = convertToMap(makeContent(filepath1), check);
-        Map fileSecond = convertToMap(makeContent(filepath2), check);
+        Map fileFirst = convertToMap(readFile(filepath1), check);
+        Map fileSecond = convertToMap(readFile(filepath2), check);
 
-        return Formatter.formatter(finishMap(fileFirst, fileSecond), formatName);
+        return Formatter.formatter(buildDiff(fileFirst, fileSecond), formatName);
     }
 }

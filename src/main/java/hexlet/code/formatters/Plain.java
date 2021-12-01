@@ -9,68 +9,60 @@ import java.util.Map;
 
 public class Plain {
 
-    public static String plain(Map map) throws IOException {
+    public static String plain(List<Map<String, Object>> map) {
 
 
-        final int indexFirstMarker = 0;
-        final int indexSecondMarker = 1;
-        final int indexFirstValue = 2;
-        final int indexSecondValue = 3;
         final String lineSeparator = System.lineSeparator();
 
         StringBuilder result = new StringBuilder();
-        map.forEach((k, v) -> {
-            ArrayList str = (ArrayList) v;
+        map.forEach(l -> {
 
-            if (str.get(indexFirstValue) instanceof String && !str.get(indexFirstValue).equals("null")
-                    && !str.get(indexFirstValue).equals(" ")) {
-                str.add(indexFirstValue, "\'" + str.get(indexFirstValue) + "\'");
-                str.remove(indexFirstValue + 1);
+            if (l.get("value1") instanceof String && !l.get("value1").equals("null")
+                    && !l.get("value1").equals(" ")) {
+                l.put("value1", "\'" + l.get("value1") + "\'");
 
             }
 
-            if (str.get(indexSecondValue) instanceof String && !str.get(indexSecondValue).equals("null")
-                    && !str.get(indexSecondValue).equals(" ")) {
-                str.add(indexSecondValue, "\'" + str.get(indexSecondValue) + "\'");
-                str.remove(indexSecondValue + 1);
+            if (l.get("value2") instanceof String && !l.get("value2").equals("null")
+                    && !l.get("value2").equals(" ")) {
+                l.put("value2", "\'" + l.get("value2") + "\'");
+
             }
 
 
-            if (str.get(indexFirstValue) instanceof List || str.get(indexFirstValue) instanceof Map) {
-                str.add(indexFirstValue, "[complex value]");
-                str.remove(indexFirstValue + 1);
+            if (l.get("value1") instanceof List || l.get("value1") instanceof Map) {
+                l.put("value1", "[complex value]");
             }
-            if (str.get(indexSecondValue) instanceof List || str.get(indexSecondValue) instanceof Map) {
-                str.add(indexSecondValue, "[complex value]");
-                str.remove(indexSecondValue + 1);
+            if (l.get("value2") instanceof List || l.get("value2") instanceof Map) {
+                l.put("value2", "[complex value]");
             }
 
-            if (str.get(indexFirstMarker).equals(Differ.DELL) && str.get(indexSecondMarker).equals(Differ.ADD)) {
+            if(l.get("status").equals("changed")) {
                 result.append("Property \'")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append("\' was updated. From ")
-                        .append(str.get(indexFirstValue))
+                        .append(l.get("value1"))
                         .append(" to ")
-                        .append(str.get(indexSecondValue))
+                        .append(l.get("value2"))
                         .append(lineSeparator);
             }
-            if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.DELL)) {
+            if(l.get("status").equals("deleted")) {
                 result.append("Property \'")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append("\' was removed")
                         .append(lineSeparator);
             }
-            if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.ADD)) {
+            if(l.get("status").equals("added")) {
                 result.append("Property \'")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append("\' was added with value: ")
-                        .append(str.get(indexSecondValue))
+                        .append(l.get("value2"))
                         .append(lineSeparator);
             }
+
         });
 
         result.deleteCharAt(result.length() - 1);
-
         return result.toString();
     }
 

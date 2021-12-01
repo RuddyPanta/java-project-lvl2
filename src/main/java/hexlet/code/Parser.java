@@ -8,16 +8,31 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map unSerializeYml(String contentFilepath) throws IOException {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+    public static Map unSerialize (String contentFilepath, String type) throws IOException {
+        ObjectMapper mapper = null;
+
+        if(type.equals("yml")) {
+             mapper = new ObjectMapper(new YAMLFactory());
+        }
+        if(type.equals("json")) {
+             mapper = new ObjectMapper();
+        }
+        assert mapper != null;
         Map user = mapper.readValue(contentFilepath, Map.class);
+
         return user;
     }
-
-    public static Map unSerializeJson(String contentFilepath) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(contentFilepath, Map.class);
-    }
+//
+//    public static Map unSerializeYml(String contentFilepath) throws IOException {
+//        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+//        Map user = mapper.readValue(contentFilepath, Map.class);
+//        return user;
+//    }
+//
+//    public static Map unSerializeJson(String contentFilepath) throws IOException {
+//        ObjectMapper mapper = new ObjectMapper();
+//        return mapper.readValue(contentFilepath, Map.class);
+//    }
 //
 //    public static Map unSerialize(String str) throws IOException {
 //        ObjectMapper mapper = new ObjectMapper();

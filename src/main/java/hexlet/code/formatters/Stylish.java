@@ -1,63 +1,59 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Stylish {
 
-    public static String stylish(Map map) throws IOException {
+    public static String stylish(List<Map<String, Object>> map) {
 
-        final int indexFirstMarker = 0;
-        final int indexSecondMarker = 1;
-        final int indexFirstValue = 2;
-        final int indexSecondValue = 3;
+
         final String lineSeparator = System.lineSeparator();
 
         StringBuilder result = new StringBuilder();
         result.append("{")
                 .append(lineSeparator);
 
-        map.forEach((k, v) -> {
-            ArrayList str = (ArrayList) v;
-
-            if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.ZERO)) {
+        map.forEach(l -> {
+            if(l.get("status").equals("unchanged")) {
                 result.append("    ")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append(": ")
-                        .append(str.get(indexFirstValue))
+                        .append(l.get("value1"))
                         .append(lineSeparator);
             }
-            if (str.get(indexFirstMarker).equals(Differ.DELL) && str.get(indexSecondMarker).equals(Differ.ADD)) {
+            if(l.get("status").equals("changed")) {
                 result.append("  - ")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append(": ")
-                        .append(str.get(indexFirstValue))
+                        .append(l.get("value1"))
                         .append(lineSeparator)
                         .append("  + ")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append(": ")
-                        .append(str.get(indexSecondValue))
+                        .append(l.get("value2"))
                         .append(lineSeparator);
             }
-            if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.DELL)) {
+            if(l.get("status").equals("deleted")) {
                 result.append("  - ")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append(": ")
-                        .append(str.get(indexFirstValue))
+                        .append(l.get("value1"))
                         .append(lineSeparator);
-            }
-            if (str.get(indexFirstMarker).equals(Differ.ZERO) && str.get(indexSecondMarker).equals(Differ.ADD)) {
+              }
+            if(l.get("status").equals("added")) {
                 result.append("  + ")
-                        .append(k)
+                        .append(l.get("fieldName"))
                         .append(": ")
-                        .append(str.get(indexSecondValue))
+                        .append(l.get("value2"))
                         .append(lineSeparator);
-            }
 
+            }
         });
+
+
         result.append("}");
 
         return result.toString();
