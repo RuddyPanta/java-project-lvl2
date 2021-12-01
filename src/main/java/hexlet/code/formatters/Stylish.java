@@ -1,7 +1,5 @@
 package hexlet.code.formatters;
 
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +15,14 @@ public class Stylish {
                 .append(lineSeparator);
 
         map.forEach(l -> {
-            if(l.get("status").equals("unchanged")) {
+            if (l.get("status").equals("unchanged")) {
                 result.append("    ")
                         .append(l.get("fieldName"))
                         .append(": ")
                         .append(l.get("value1"))
                         .append(lineSeparator);
             }
-            if(l.get("status").equals("changed")) {
+            if (l.get("status").equals("changed")) {
                 result.append("  - ")
                         .append(l.get("fieldName"))
                         .append(": ")
@@ -36,14 +34,14 @@ public class Stylish {
                         .append(l.get("value2"))
                         .append(lineSeparator);
             }
-            if(l.get("status").equals("deleted")) {
+            if (l.get("status").equals("deleted")) {
                 result.append("  - ")
                         .append(l.get("fieldName"))
                         .append(": ")
                         .append(l.get("value1"))
                         .append(lineSeparator);
-              }
-            if(l.get("status").equals("added")) {
+            }
+            if (l.get("status").equals("added")) {
                 result.append("  + ")
                         .append(l.get("fieldName"))
                         .append(": ")

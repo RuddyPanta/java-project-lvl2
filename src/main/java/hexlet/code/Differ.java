@@ -3,10 +3,13 @@ package hexlet.code;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Differ {
-
 
 
     public static final String UNCHANGED = "unchanged";
@@ -39,16 +42,16 @@ public class Differ {
         }
         return result;
     }
-    
+
     private static Map<String, Object> buildMap(String status, String fieldName, Object
             value1, Object value2) {
         Map<String, Object> arr = new HashMap<>();
-            arr.put("status", status);
-            arr.put("fieldName", fieldName);
-            arr.put("value1", value1);
-            arr.put("value2", value2);
-            return arr;
-    } 
+        arr.put("status", status);
+        arr.put("fieldName", fieldName);
+        arr.put("value1", value1);
+        arr.put("value2", value2);
+        return arr;
+    }
 
     private static List<Map<String, Object>> buildDiff(Map fileFirst, Map fileSecond) {
 
@@ -57,12 +60,12 @@ public class Differ {
         Map<String, Object> map3 = new TreeMap<>();
         map3.putAll(fileFirst);
         map3.putAll(fileSecond);
-        
+
 
         map3.forEach((k, v) -> {
-           
+
             String status;
-            
+
             if (fileFirst.containsKey(k) && fileSecond.containsKey(k)) {
 
                 if (fileFirst.get(k) == null) {
@@ -81,12 +84,12 @@ public class Differ {
                 }
             } else {
                 if (fileFirst.containsKey(k)) {
-                     status = DELETED; 
+                    status = DELETED;
                 } else {
                     status = ADDED;
                 }
             }
-           
+
             result.add(buildMap(status, k, fileFirst.get(k), fileSecond.get(k)));
 
         });

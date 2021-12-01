@@ -1,9 +1,5 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Differ;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +33,7 @@ public class Plain {
                 l.put("value2", "[complex value]");
             }
 
-            if(l.get("status").equals("changed")) {
+            if (l.get("status").equals("changed")) {
                 result.append("Property \'")
                         .append(l.get("fieldName"))
                         .append("\' was updated. From ")
@@ -46,13 +42,13 @@ public class Plain {
                         .append(l.get("value2"))
                         .append(lineSeparator);
             }
-            if(l.get("status").equals("deleted")) {
+            if (l.get("status").equals("deleted")) {
                 result.append("Property \'")
                         .append(l.get("fieldName"))
                         .append("\' was removed")
                         .append(lineSeparator);
             }
-            if(l.get("status").equals("added")) {
+            if (l.get("status").equals("added")) {
                 result.append("Property \'")
                         .append(l.get("fieldName"))
                         .append("\' was added with value: ")
