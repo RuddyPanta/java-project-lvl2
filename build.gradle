@@ -10,6 +10,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.39.0'
     id 'application'
     id 'checkstyle'
+    id 'jacoco'
 }
 
 
@@ -50,7 +51,16 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
-
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled true
+    }
+}
+jacoco {
+    toolVersion = "0.8.7"
+}
 sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16
