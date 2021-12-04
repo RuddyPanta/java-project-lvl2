@@ -1,5 +1,7 @@
 package hexlet.code.formatters;
 
+import hexlet.code.Values;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,37 +17,37 @@ public class Stylish {
                 .append(lineSeparator);
 
         map.forEach(l -> {
-            if (l.get("status").equals("unchanged")) {
+            if (l.get(Values.STATUS.name()).equals(Values.UNCHANGED.name())) {
                 result.append("    ")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append(": ")
-                        .append(l.get("value1"))
+                        .append(l.get(Values.VALUE_1.name()))
                         .append(lineSeparator);
             }
-            if (l.get("status").equals("changed")) {
+            if (l.get(Values.STATUS.name()).equals(Values.CHANGED.name())) {
                 result.append("  - ")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append(": ")
-                        .append(l.get("value1"))
+                        .append(l.get(Values.VALUE_1.name()))
                         .append(lineSeparator)
                         .append("  + ")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append(": ")
-                        .append(l.get("value2"))
+                        .append(l.get(Values.VALUE_2.name()))
                         .append(lineSeparator);
             }
-            if (l.get("status").equals("deleted")) {
+            if (l.get(Values.STATUS.name()).equals(Values.DELETED.name())) {
                 result.append("  - ")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append(": ")
-                        .append(l.get("value1"))
+                        .append(l.get(Values.VALUE_1.name()))
                         .append(lineSeparator);
             }
-            if (l.get("status").equals("added")) {
+            if (l.get(Values.STATUS.name()).equals(Values.ADDED.name())) {
                 result.append("  + ")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append(": ")
-                        .append(l.get("value2"))
+                        .append(l.get(Values.VALUE_2.name()))
                         .append(lineSeparator);
 
             }

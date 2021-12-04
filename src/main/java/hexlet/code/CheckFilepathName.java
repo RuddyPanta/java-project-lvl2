@@ -11,7 +11,7 @@ public class CheckFilepathName {
 
         if (filepath1.contains(".yaml") && filepath2.contains(".yaml")
                 || filepath1.contains(".yml") && filepath2.contains(".yml")) {
-            result = "YAML";
+            result = "YML";
         }
 
         return result;

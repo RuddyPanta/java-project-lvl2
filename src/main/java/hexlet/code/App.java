@@ -2,7 +2,6 @@
 package hexlet.code;
 
 import picocli.CommandLine;
-
 import java.util.concurrent.Callable;
 
 public class App {
@@ -46,7 +45,7 @@ public class App {
         }
 
         @Override
-        public Integer call() throws Exception {
+        public Integer call() {
 
             if (qestFlag(usageHelpRequested, versionInfoRequested)) {
                 handleFlags(usageHelpRequested, versionInfoRequested);
@@ -66,7 +65,7 @@ public class App {
     }
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         CommandLine.call(new Command(), System.err, args);
     }
 }

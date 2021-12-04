@@ -12,11 +12,6 @@ import java.util.TreeMap;
 public class Differ {
 
 
-    public static final String UNCHANGED = "unchanged";
-    public static final String CHANGED = "changed";
-    public static final String DELETED = "deleted";
-    public static final String ADDED = "added";
-
     private static String readFile(String filepath) throws IOException {
         return Files.readString(Paths.get(filepath));
 
@@ -27,12 +22,12 @@ public class Differ {
         switch (check) {
             case "JSON" -> {
 
-                result = Parser.unSerialize(content, "json");
+                result = Parser.unSerialize(content, Values.JSON.name());
 
             }
 
-            case "YAML" -> {
-                result = Parser.unSerialize(content, "yml");
+            case "YML" -> {
+                result = Parser.unSerialize(content, Values.YML.name());
 
             }
 
@@ -46,10 +41,10 @@ public class Differ {
     private static Map<String, Object> buildMap(String status, String fieldName, Object
             value1, Object value2) {
         Map<String, Object> arr = new HashMap<>();
-        arr.put("status", status);
-        arr.put("fieldName", fieldName);
-        arr.put("value1", value1);
-        arr.put("value2", value2);
+        arr.put(Values.STATUS.name(), status);
+        arr.put(Values.FIELD_NAME.name(), fieldName);
+        arr.put(Values.VALUE_1.name(), value1);
+        arr.put(Values.VALUE_2.name(), value2);
         return arr;
     }
 
@@ -78,15 +73,15 @@ public class Differ {
 
 
                 if (fileFirst.get(k).equals(fileSecond.get(k))) {
-                    status = UNCHANGED;
+                    status = Values.UNCHANGED.name();
                 } else {
-                    status = CHANGED;
+                    status = Values.CHANGED.name();
                 }
             } else {
                 if (fileFirst.containsKey(k)) {
-                    status = DELETED;
+                    status = Values.DELETED.name();
                 } else {
-                    status = ADDED;
+                    status = Values.ADDED.name();
                 }
             }
 
@@ -98,7 +93,7 @@ public class Differ {
     }
 
     public static String generate(String filepath1, String filepath2) throws IOException {
-        return generate(filepath1, filepath2, "stylish");
+        return generate(filepath1, filepath2, Values.STYLISH.name());
     }
 
     public static String generate(String filepath1, String filepath2, String formatName) throws IOException {

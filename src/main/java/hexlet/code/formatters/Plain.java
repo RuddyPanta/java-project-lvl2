@@ -1,5 +1,7 @@
 package hexlet.code.formatters;
 
+import hexlet.code.Values;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,46 +15,46 @@ public class Plain {
         StringBuilder result = new StringBuilder();
         map.forEach(l -> {
 
-            if (l.get("value1") instanceof String && !l.get("value1").equals("null")
-                    && !l.get("value1").equals(" ")) {
-                l.put("value1", "\'" + l.get("value1") + "\'");
+            if (l.get(Values.VALUE_1.name()) instanceof String && !l.get(Values.VALUE_1.name()).equals("null")
+                    && !l.get(Values.VALUE_1.name()).equals(" ")) {
+                l.put(Values.VALUE_1.name(), "\'" + l.get(Values.VALUE_1.name()) + "\'");
 
             }
 
-            if (l.get("value2") instanceof String && !l.get("value2").equals("null")
-                    && !l.get("value2").equals(" ")) {
-                l.put("value2", "\'" + l.get("value2") + "\'");
+            if (l.get(Values.VALUE_2.name()) instanceof String && !l.get(Values.VALUE_2.name()).equals("null")
+                    && !l.get(Values.VALUE_2.name()).equals(" ")) {
+                l.put(Values.VALUE_2.name(), "\'" + l.get(Values.VALUE_2.name()) + "\'");
 
             }
 
 
-            if (l.get("value1") instanceof List || l.get("value1") instanceof Map) {
-                l.put("value1", "[complex value]");
+            if (l.get(Values.VALUE_1.name()) instanceof List || l.get(Values.VALUE_1.name()) instanceof Map) {
+                l.put(Values.VALUE_1.name(), "[complex value]");
             }
-            if (l.get("value2") instanceof List || l.get("value2") instanceof Map) {
-                l.put("value2", "[complex value]");
+            if (l.get(Values.VALUE_2.name()) instanceof List || l.get(Values.VALUE_2.name()) instanceof Map) {
+                l.put(Values.VALUE_2.name(), "[complex value]");
             }
 
-            if (l.get("status").equals("changed")) {
+            if (l.get(Values.STATUS.name()).equals(Values.CHANGED.name())) {
                 result.append("Property \'")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append("\' was updated. From ")
-                        .append(l.get("value1"))
+                        .append(l.get(Values.VALUE_1.name()))
                         .append(" to ")
-                        .append(l.get("value2"))
+                        .append(l.get(Values.VALUE_2.name()))
                         .append(lineSeparator);
             }
-            if (l.get("status").equals("deleted")) {
+            if (l.get(Values.STATUS.name()).equals(Values.DELETED.name())) {
                 result.append("Property \'")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append("\' was removed")
                         .append(lineSeparator);
             }
-            if (l.get("status").equals("added")) {
+            if (l.get(Values.STATUS.name()).equals(Values.ADDED.name())) {
                 result.append("Property \'")
-                        .append(l.get("fieldName"))
+                        .append(l.get(Values.FIELD_NAME.name()))
                         .append("\' was added with value: ")
-                        .append(l.get("value2"))
+                        .append(l.get(Values.VALUE_2.name()))
                         .append(lineSeparator);
             }
 
