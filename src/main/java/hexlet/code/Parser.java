@@ -10,10 +10,10 @@ public class Parser {
     public static Map unSerialize(String contentFilepath, String type) throws IOException {
         ObjectMapper mapper = null;
 
-        if (type.equals("YML")) {
+        if (type.equals(Values.YML.name())) {
             mapper = new ObjectMapper(new YAMLFactory());
         }
-        if (type.equals("JSON")) {
+        if (type.equals(Values.JSON.name())) {
             mapper = new ObjectMapper();
         }
         assert mapper != null;
