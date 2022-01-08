@@ -1,17 +1,17 @@
 package hexlet.code;
 
 public enum Values {
-// status name
+    // status name
     UNCHANGED,
     CHANGED,
     DELETED,
     ADDED,
-// fields name
+    // fields name
     STATUS,
     FIELD_NAME,
     VALUE_1,
     VALUE_2,
-// formatter styles name
+    // formatter styles name
     STYLISH,
     PLAIN,
     JSON,
