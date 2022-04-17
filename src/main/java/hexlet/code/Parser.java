@@ -8,13 +8,16 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map unSerialize(String contentFilepath, String type) throws IOException {
+    public static Map unSerialize(String contentFilepath, String filepath) throws IOException {
 
+
+        String[] data = filepath.split("\\.");
+        String type = Values.valueOf(data[1].toUpperCase()).toString();
 
         ObjectMapper mapper = switch (type) {
-            case "YML" -> new ObjectMapper(new YAMLFactory());
+            case "YML", "YAML" -> new ObjectMapper(new YAMLFactory());
             case "JSON" -> new ObjectMapper();
-            default -> null;
+            default -> throw new RuntimeException("invalid file format");
         };
 
         Map result = mapper.readValue(contentFilepath, Map.class);

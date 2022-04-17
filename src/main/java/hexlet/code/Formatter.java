@@ -12,14 +12,16 @@ public class Formatter {
     public static String formatter(List map, String formatter) throws IOException {
 
         switch (formatter) {
-            case "stylish":
+            case "stylish" -> {
                 return Stylish.stylish(map);
-            case "plain":
+            }
+            case "plain" -> {
                 return Plain.plain(map);
-            case "json":
+            }
+            case "json" -> {
                 return Json.json(map);
-            default:
-                return "error";
+            }
+            default -> throw new RuntimeException("invalid file format");
 
         }
     }
