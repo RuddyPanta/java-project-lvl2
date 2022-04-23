@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.LinkedList;
 import java.util.TreeSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Differ {
 
@@ -29,46 +30,32 @@ public class Differ {
     }
 
 
-    private static List<Map<String, Object>> buildDiff(Map fileFirst, Map fileSecond) {
+    private static List<Map<String, Object>> buildDiff(Map<String, Object> fileFirst, Map<String, Object> fileSecond) {
 
-        List<Map<String, Object>> result = new LinkedList<>();
+        Set<String> allKeys = new TreeSet<>();
+        allKeys.addAll(fileFirst.keySet());
+        allKeys.addAll(fileSecond.keySet());
 
-        Set<String> map3 = new TreeSet<>();
-        map3.addAll(fileFirst.keySet());
-        map3.addAll(fileSecond.keySet());
-
-        map3.forEach(str -> {
+        return allKeys.stream().map(str -> {
 
             String status = Values.CHANGED.name();
-
-            if (fileFirst.get(str) == null || fileSecond.get(str) == null) {
-
-                if (!fileFirst.containsKey(str)) {
-                    status = Values.ADDED.name();
-                } else if (!fileSecond.containsKey(str)) {
-                    status = Values.DELETED.name();
-                } else if (fileFirst.get(str) == null && fileSecond.get(str) == null) {
-                    status = Values.UNCHANGED.name();
-                }
-
-                result.add(buildNode(status, str, fileFirst.get(str), fileSecond.get(str)));
-
-                return;
-            }
-
 
             if (!fileFirst.containsKey(str)) {
                 status = Values.ADDED.name();
             } else if (!fileSecond.containsKey(str)) {
                 status = Values.DELETED.name();
-            } else if (fileFirst.get(str).equals(fileSecond.get(str))) {
+            } else if (Objects.equals(fileFirst.get(str), fileSecond.get(str))) {
                 status = Values.UNCHANGED.name();
             }
+            return buildNode(status, str, fileFirst.get(str), fileSecond.get(str));
+        }).collect(Collectors.toList());
 
-            result.add(buildNode(status, str, fileFirst.get(str), fileSecond.get(str)));
-        });
+    }
 
-        return result;
+    private static String choiceTypeParser(String filepath) {
+        String[] data = filepath.split("\\.");
+        return Values.valueOf(data[1].toUpperCase()).toString();
+
     }
 
 
@@ -79,8 +66,8 @@ public class Differ {
 
     public static String generate(String filepath1, String filepath2, String formatName) throws IOException {
 
-        Map fileFirst = Parser.unSerialize(readFile(filepath1), filepath1);
-        Map fileSecond = Parser.unSerialize(readFile(filepath2), filepath2);
+        Map fileFirst = Parser.unSerialize(readFile(filepath1), choiceTypeParser(filepath1));
+        Map fileSecond = Parser.unSerialize(readFile(filepath2), choiceTypeParser(filepath2));
 
         return Formatter.formatter(buildDiff(fileFirst, fileSecond), formatName);
     }

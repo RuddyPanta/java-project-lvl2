@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -8,11 +9,8 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map unSerialize(String contentFilepath, String filepath) throws IOException {
+    public static Map unSerialize(String contentFilepath, String type) throws IOException {
 
-
-        String[] data = filepath.split("\\.");
-        String type = Values.valueOf(data[1].toUpperCase()).toString();
 
         ObjectMapper mapper = switch (type) {
             case "YML", "YAML" -> new ObjectMapper(new YAMLFactory());
@@ -20,9 +18,9 @@ public class Parser {
             default -> throw new RuntimeException("invalid file format");
         };
 
-        Map result = mapper.readValue(contentFilepath, Map.class);
+        return mapper.readValue(contentFilepath, new TypeReference<Map<String, Object>>() {
 
-        return result;
+        });
     }
 
 }

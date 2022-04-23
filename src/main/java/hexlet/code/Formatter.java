@@ -6,23 +6,19 @@ import hexlet.code.formatters.Stylish;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class Formatter {
 
-    public static String formatter(List map, String formatter) throws IOException {
+    public static String formatter(List<Map<String, Object>> diff, String formatter) throws IOException {
 
-        switch (formatter) {
-            case "stylish" -> {
-                return Stylish.stylish(map);
-            }
-            case "plain" -> {
-                return Plain.plain(map);
-            }
-            case "json" -> {
-                return Json.json(map);
-            }
+        return switch (formatter) {
+            case "stylish" -> Stylish.stylish(diff);
+            case "plain" -> Plain.plain(diff);
+            case "json" -> Json.json(diff);
             default -> throw new RuntimeException("invalid file format");
 
-        }
+        };
+
     }
 }
