@@ -4,59 +4,61 @@ import hexlet.code.Values;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Stylish {
 
+    static final String LINE_SEPARATOR = System.lineSeparator();
+    static final String PREFIX = "{" + LINE_SEPARATOR;
+    static final String SUFFIX = LINE_SEPARATOR + "}";
+
     public static String stylish(List<Map<String, Object>> diff) {
 
+        return diff.stream().map(node -> {
 
-        final String lineSeparator = System.lineSeparator();
+            String str = null;
 
-        StringBuilder result = new StringBuilder();
-        result.append("{")
-                .append(lineSeparator);
-
-        diff.forEach(node -> {
             if (node.get(Values.STATUS.name()).equals(Values.UNCHANGED.name())) {
-                result.append("    ")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append(": ")
-                        .append(node.get(Values.VALUE_1.name()))
-                        .append(lineSeparator);
+                str = "    "
+                        + node.get(Values.FIELD_NAME.name())
+                        + ": "
+                        + node.get(Values.VALUE_1.name());
+
             }
+
             if (node.get(Values.STATUS.name()).equals(Values.CHANGED.name())) {
-                result.append("  - ")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append(": ")
-                        .append(node.get(Values.VALUE_1.name()))
-                        .append(lineSeparator)
-                        .append("  + ")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append(": ")
-                        .append(node.get(Values.VALUE_2.name()))
-                        .append(lineSeparator);
+                str = "  - "
+                        + node.get(Values.FIELD_NAME.name())
+                        + ": "
+                        + node.get(Values.VALUE_1.name())
+                        + LINE_SEPARATOR
+                        + "  + "
+                        + node.get(Values.FIELD_NAME.name())
+                        + ": "
+                        + node.get(Values.VALUE_2.name());
+
             }
+
             if (node.get(Values.STATUS.name()).equals(Values.DELETED.name())) {
-                result.append("  - ")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append(": ")
-                        .append(node.get(Values.VALUE_1.name()))
-                        .append(lineSeparator);
+                str = "  - "
+                        + node.get(Values.FIELD_NAME.name())
+                        + ": "
+                        + node.get(Values.VALUE_1.name());
+
             }
+
             if (node.get(Values.STATUS.name()).equals(Values.ADDED.name())) {
-                result.append("  + ")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append(": ")
-                        .append(node.get(Values.VALUE_2.name()))
-                        .append(lineSeparator);
-
+                str = "  + "
+                        + node.get(Values.FIELD_NAME.name())
+                        + ": "
+                        + node.get(Values.VALUE_2.name());
             }
-        });
+
+            return str;
+        }).filter(Objects::nonNull).collect(Collectors.joining(LINE_SEPARATOR, PREFIX, SUFFIX));
 
 
-        result.append("}");
-
-        return result.toString();
     }
 
 

@@ -1,66 +1,60 @@
 package hexlet.code.formatters;
 
 import hexlet.code.Values;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Plain {
 
-    private static String stringify(Object diff) {
-        String newName;
-        if (diff != null) {
-            newName = diff.toString();
-        } else {
-            newName = "null";
+    static final String LINE_SEPARATOR = System.lineSeparator();
+
+    private static String stringify(Object obj) {
+
+        if (obj instanceof String) {
+            return ("\'" + obj + "\'");
         }
 
-        if (diff instanceof String && !diff.equals(" ")) {
-            newName = ("\'" + diff + "\'");
-
+        if (obj instanceof Collection || obj instanceof Map) {
+            return "[complex value]";
         }
 
-        if (diff instanceof List || diff instanceof Map) {
-            newName = "[complex value]";
-        }
-
-        return newName;
+        return String.valueOf(obj);
     }
 
     public static String plain(List<Map<String, Object>> diff) {
 
-        final String lineSeparator = System.lineSeparator();
-
-        StringBuilder result = new StringBuilder();
-
-        diff.stream().forEach(node -> {
-
+        return diff.stream().map(node -> {
+            String str = null;
             if (node.get(Values.STATUS.name()).equals(Values.CHANGED.name())) {
-                result.append("Property \'")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append("\' was updated. From ")
-                        .append(stringify(node.get(Values.VALUE_1.name())))
-                        .append(" to ")
-                        .append(stringify(node.get(Values.VALUE_2.name())))
-                        .append(lineSeparator);
+                str = "Property \'"
+                        + node.get(Values.FIELD_NAME.name())
+                        + "\' was updated. From "
+                        + stringify(node.get(Values.VALUE_1.name()))
+                        + " to "
+                        + stringify(node.get(Values.VALUE_2.name()));
             }
+
             if (node.get(Values.STATUS.name()).equals(Values.DELETED.name())) {
-                result.append("Property \'")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append("\' was removed")
-                        .append(lineSeparator);
+                str = "Property \'"
+                        + node.get(Values.FIELD_NAME.name())
+                        + "\' was removed";
+
             }
+
             if (node.get(Values.STATUS.name()).equals(Values.ADDED.name())) {
-                result.append("Property \'")
-                        .append(node.get(Values.FIELD_NAME.name()))
-                        .append("\' was added with value: ")
-                        .append(stringify(node.get(Values.VALUE_2.name())))
-                        .append(lineSeparator);
+                str = "Property \'"
+                        + node.get(Values.FIELD_NAME.name())
+                        + "\' was added with value: "
+                        + stringify(node.get(Values.VALUE_2.name()));
             }
 
-        });
+            return str;
+        }).filter(Objects::nonNull).collect(Collectors.joining(LINE_SEPARATOR));
 
-        result.deleteCharAt(result.length() - 1);
-        return result.toString();
     }
 
 }

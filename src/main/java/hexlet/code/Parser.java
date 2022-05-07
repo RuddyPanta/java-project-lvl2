@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map unSerialize(String contentFilepath, String type) throws IOException {
+    public static Map<String, Object> unSerialize(String contentFilepath, String type) throws IOException {
 
 
         ObjectMapper mapper = switch (type) {

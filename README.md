@@ -8,3 +8,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/09716319a474bd2e6fbb/test_coverage)](https://codeclimate.com/github/RuddyPanta/java-project-lvl2/test_coverage)
 
 
+
+<a href="https://asciinema.org/a/CGATOszE74wZjwJfu7TThSiFN" target="_blank"><img src="https://asciinema.org/a/CGATOszE74wZjwJfu7TThSiFN.svg" width = "30%"/></a>
+
+

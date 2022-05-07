@@ -21,12 +21,12 @@ public class Differ {
 
     private static Map<String, Object> buildNode(String status, String fieldName, Object
             value1, Object value2) {
-        Map<String, Object> arr = new HashMap<>();
-        arr.put(Values.STATUS.name(), status);
-        arr.put(Values.FIELD_NAME.name(), fieldName);
-        arr.put(Values.VALUE_1.name(), value1);
-        arr.put(Values.VALUE_2.name(), value2);
-        return arr;
+        Map<String, Object> node = new HashMap<>();
+        node.put(Values.STATUS.name(), status);
+        node.put(Values.FIELD_NAME.name(), fieldName);
+        node.put(Values.VALUE_1.name(), value1);
+        node.put(Values.VALUE_2.name(), value2);
+        return node;
     }
 
 
@@ -36,25 +36,25 @@ public class Differ {
         allKeys.addAll(fileFirst.keySet());
         allKeys.addAll(fileSecond.keySet());
 
-        return allKeys.stream().map(str -> {
+        return allKeys.stream().map(fieldName -> {
 
             String status = Values.CHANGED.name();
 
-            if (!fileFirst.containsKey(str)) {
+            if (!fileFirst.containsKey(fieldName)) {
                 status = Values.ADDED.name();
-            } else if (!fileSecond.containsKey(str)) {
+            } else if (!fileSecond.containsKey(fieldName)) {
                 status = Values.DELETED.name();
-            } else if (Objects.equals(fileFirst.get(str), fileSecond.get(str))) {
+            } else if (Objects.equals(fileFirst.get(fieldName), fileSecond.get(fieldName))) {
                 status = Values.UNCHANGED.name();
             }
-            return buildNode(status, str, fileFirst.get(str), fileSecond.get(str));
+            return buildNode(status, fieldName, fileFirst.get(fieldName), fileSecond.get(fieldName));
         }).collect(Collectors.toList());
 
     }
 
     private static String choiceTypeParser(String filepath) {
         String[] data = filepath.split("\\.");
-        return Values.valueOf(data[1].toUpperCase()).toString();
+        return Values.valueOf(data[data.length - 1].toUpperCase()).toString();
 
     }
 
@@ -66,8 +66,8 @@ public class Differ {
 
     public static String generate(String filepath1, String filepath2, String formatName) throws IOException {
 
-        Map fileFirst = Parser.unSerialize(readFile(filepath1), choiceTypeParser(filepath1));
-        Map fileSecond = Parser.unSerialize(readFile(filepath2), choiceTypeParser(filepath2));
+        Map<String, Object> fileFirst = Parser.unSerialize(readFile(filepath1), choiceTypeParser(filepath1));
+        Map<String, Object> fileSecond = Parser.unSerialize(readFile(filepath2), choiceTypeParser(filepath2));
 
         return Formatter.formatter(buildDiff(fileFirst, fileSecond), formatName);
     }
